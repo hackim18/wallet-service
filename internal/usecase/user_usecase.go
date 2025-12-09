@@ -19,14 +19,16 @@ import (
 type UserUseCase struct {
 	DB             *gorm.DB
 	Log            *logrus.Logger
+	JWT            *utils.JWTHelper
 	UserRepository *repository.UserRepository
 }
 
-func NewUserUseCase(db *gorm.DB, logger *logrus.Logger,
+func NewUserUseCase(db *gorm.DB, logger *logrus.Logger, jwt *utils.JWTHelper,
 	userRepository *repository.UserRepository) *UserUseCase {
 	return &UserUseCase{
 		DB:             db,
 		Log:            logger,
+		JWT:            jwt,
 		UserRepository: userRepository,
 	}
 }
@@ -103,18 +105,29 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 	defer tx.Rollback()
 
 	user := new(entity.User)
-	if err := c.UserRepository.FindById(tx, user, request.ID); err != nil {
-		c.Log.Warnf("Failed find user by id : %+v", err)
-		return nil, model.ErrUnauthorized
+	if err := c.UserRepository.FindByCondition(tx, user, "email = ?", request.Email); err != nil {
+		c.Log.Warnf("Failed to find user by email : %+v", err)
+		return nil, utils.Error(constants.ErrInvalidEmailOrPassword, http.StatusUnauthorized, err)
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(request.Password)); err != nil {
-		c.Log.Warnf("Failed to compare user password with bcrype hash : %+v", err)
-		return nil, model.ErrUnauthorized
+		c.Log.Warnf("Invalid password : %+v", err)
+		return nil, utils.Error(constants.ErrInvalidEmailOrPassword, http.StatusUnauthorized, err)
+	}
+
+	if c.JWT == nil {
+		c.Log.Warn("JWT helper not configured")
+		return nil, utils.Error(constants.ErrGenerateAccessToken, http.StatusInternalServerError, nil)
+	}
+
+	accessToken, err := c.JWT.GenerateAccessToken(user.ID, user.Email)
+	if err != nil {
+		c.Log.Warnf("Failed to generate access token : %+v", err)
+		return nil, utils.Error(constants.ErrGenerateAccessToken, http.StatusInternalServerError, err)
 	}
 
 	login := &model.UserLogin{
-		AccessToken: "accessToken",
+		AccessToken: accessToken,
 	}
 
 	if err := tx.Commit().Error; err != nil {

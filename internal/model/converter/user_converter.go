@@ -6,15 +6,17 @@ import (
 )
 
 func UserToResponse(user *entity.User) *model.UserResponse {
+	id := user.ID
 	return &model.UserResponse{
-		ID:   user.ID,
-		Name: user.Name,
+		ID:    &id,
+		Name:  user.Name,
+		Email: user.Email,
 	}
 }
 
 func UserToTokenResponse(user *entity.User, login *model.UserLogin) *model.UserResponse {
 	return &model.UserResponse{
-		Token: login.AccessToken,
+		AccessToken: login.AccessToken,
 	}
 }
 

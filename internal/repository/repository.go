@@ -33,3 +33,7 @@ func (r *Repository[T]) CountByCondition(db *gorm.DB, condition string, args ...
 func (r *Repository[T]) FindById(db *gorm.DB, entity *T, id any) error {
 	return db.Where("id = ?", id).Take(entity).Error
 }
+
+func (r *Repository[T]) FindByCondition(db *gorm.DB, entity *T, condition string, args ...any) error {
+	return db.Where(condition, args...).Take(entity).Error
+}

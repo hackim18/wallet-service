@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"wallet-service/internal/command"
 	"wallet-service/internal/config"
+	"wallet-service/internal/utils"
 )
 
 func main() {
@@ -11,6 +12,7 @@ func main() {
 	log := config.NewLogger(viperConfig)
 	db := config.NewDatabase(viperConfig, log)
 	executor := command.NewCommandExecutor(viperConfig, db)
+	jwt := utils.NewJWT(viperConfig)
 	validate := config.NewValidator(viperConfig)
 	router := config.NewGin(viperConfig)
 
@@ -18,6 +20,7 @@ func main() {
 		DB:       db,
 		Router:   router,
 		Log:      log,
+		JWT:      jwt,
 		Validate: validate,
 		Config:   viperConfig,
 	})

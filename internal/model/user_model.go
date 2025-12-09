@@ -5,10 +5,10 @@ import (
 )
 
 type UserResponse struct {
-	ID    uuid.UUID `json:"id,omitempty"`
-	Name  string    `json:"name,omitempty"`
-	Email string    `json:"email,omitempty"`
-	Token string    `json:"token,omitempty"`
+	ID          *uuid.UUID `json:"id,omitempty"`
+	Name        string     `json:"name,omitempty"`
+	Email       string     `json:"email,omitempty"`
+	AccessToken string     `json:"access_token,omitempty"`
 }
 
 type UserLogin struct {
@@ -32,8 +32,8 @@ type UpdateUserRequest struct {
 }
 
 type LoginUserRequest struct {
-	ID       uuid.UUID `json:"id" validate:"required,max=100"`
-	Password string    `json:"password" validate:"required,max=100"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,max=100"`
 }
 
 type LogoutUserRequest struct {
