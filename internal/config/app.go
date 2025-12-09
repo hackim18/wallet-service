@@ -27,10 +27,10 @@ func Bootstrap(config *BootstrapConfig) {
 	userRepository := repository.NewUserRepository(config.Log)
 
 	// setup use cases
-	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository)
+	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, userRepository)
 
 	// setup controller
-	userController := http.NewUserController(userUseCase, config.Log)
+	userController := http.NewUserController(userUseCase, config.Log, config.Validate)
 
 	// setup middleware
 	authMiddleware := middleware.NewAuth(userUseCase)

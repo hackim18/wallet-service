@@ -24,6 +24,12 @@ func (r *Repository[T]) CountById(db *gorm.DB, id any) (int64, error) {
 	return total, err
 }
 
+func (r *Repository[T]) CountByCondition(db *gorm.DB, condition string, args ...any) (int64, error) {
+	var total int64
+	err := db.Model(new(T)).Where(condition, args...).Count(&total).Error
+	return total, err
+}
+
 func (r *Repository[T]) FindById(db *gorm.DB, entity *T, id any) error {
 	return db.Where("id = ?", id).Take(entity).Error
 }

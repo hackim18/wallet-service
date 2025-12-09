@@ -1,13 +1,14 @@
 package model
 
+import (
+	"github.com/google/uuid"
+)
+
 type UserResponse struct {
-	ID           string `json:"id,omitempty"`
-	Name         string `json:"name,omitempty"`
-	Email        string `json:"email,omitempty"`
-	Token        string `json:"token,omitempty"`
-	PasswordHash string `json:"password_hash,omitempty"`
-	CreatedAt    int64  `json:"created_at,omitempty"`
-	UpdatedAt    int64  `json:"updated_at,omitempty"`
+	ID    uuid.UUID `json:"id,omitempty"`
+	Name  string    `json:"name,omitempty"`
+	Email string    `json:"email,omitempty"`
+	Token string    `json:"token,omitempty"`
 }
 
 type UserLogin struct {
@@ -19,26 +20,26 @@ type VerifyUserRequest struct {
 }
 
 type RegisterUserRequest struct {
-	ID       string `json:"id" validate:"required,max=100"`
-	Password string `json:"password" validate:"required,max=100"`
-	Name     string `json:"name" validate:"required,max=100"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=8"`
+	Name     string `json:"name" validate:"required"`
 }
 
 type UpdateUserRequest struct {
-	ID       string `json:"-" validate:"required,max=100"`
-	Password string `json:"password,omitempty" validate:"max=100"`
-	Name     string `json:"name,omitempty" validate:"max=100"`
+	ID       uuid.UUID `json:"-" validate:"required,max=100"`
+	Password string    `json:"password,omitempty" validate:"max=100"`
+	Name     string    `json:"name,omitempty" validate:"max=100"`
 }
 
 type LoginUserRequest struct {
-	ID       string `json:"id" validate:"required,max=100"`
-	Password string `json:"password" validate:"required,max=100"`
+	ID       uuid.UUID `json:"id" validate:"required,max=100"`
+	Password string    `json:"password" validate:"required,max=100"`
 }
 
 type LogoutUserRequest struct {
-	ID string `json:"id" validate:"required,max=100"`
+	ID uuid.UUID `json:"id" validate:"required,max=100"`
 }
 
 type GetUserRequest struct {
-	ID string `json:"id" validate:"required,max=100"`
+	ID uuid.UUID `json:"id" validate:"required,max=100"`
 }

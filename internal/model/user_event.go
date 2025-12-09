@@ -1,12 +1,18 @@
 package model
 
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
+
 type UserEvent struct {
-	ID        string `json:"id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	CreatedAt int64  `json:"created_at,omitempty"`
-	UpdatedAt int64  `json:"updated_at,omitempty"`
+	ID        uuid.UUID `json:"id,omitempty"`
+	Name      string    `json:"name,omitempty"`
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
 
-func (u *UserEvent) GetId() string {
+func (u *UserEvent) GetId() uuid.UUID {
 	return u.ID
 }

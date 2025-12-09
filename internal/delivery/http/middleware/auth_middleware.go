@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	nethttp "net/http"
 	"wallet-service/internal/model"
 	"wallet-service/internal/usecase"
+	"wallet-service/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +16,7 @@ func NewAuth(userUserCase *usecase.UserUseCase) gin.HandlerFunc {
 		auth, err := userUserCase.Verify(ctx.Request.Context(), request)
 		if err != nil {
 			userUserCase.Log.Warnf("Failed find user by token : %+v", err)
-			ctx.AbortWithStatusJSON(nethttp.StatusUnauthorized, model.WebResponse[any]{Errors: model.ErrUnauthorized.Message})
+			utils.HandleHTTPError(ctx, err)
 			return
 		}
 
