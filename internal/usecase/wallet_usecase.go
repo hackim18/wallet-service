@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"net/http"
-	"strings"
 	"wallet-service/internal/constants"
 	"wallet-service/internal/entity"
 	"wallet-service/internal/model"
@@ -13,7 +12,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 type WalletUseCase struct {
@@ -32,17 +30,10 @@ func NewWalletUseCase(db *gorm.DB, logger *logrus.Logger, walletRepository *repo
 	}
 }
 
-func (c *WalletUseCase) GetBalance(ctx context.Context, userID uuid.UUID, currency string) (*model.WalletBalanceResponse, error) {
-	if strings.TrimSpace(currency) == "" {
-		return nil, utils.Error(constants.ErrCurrencyRequired, http.StatusBadRequest, nil)
-	}
-
-	currency = strings.ToUpper(currency)
-
+func (c *WalletUseCase) GetBalance(ctx context.Context, userID uuid.UUID, walletID uuid.UUID) (*model.WalletBalanceResponse, error) {
 	wallet := new(entity.Wallet)
 
-	tx := c.DB.WithContext(ctx).Clauses(clause.Locking{Strength: "SHARE"})
-	if err := c.WalletRepository.FindByUserID(tx, wallet, userID, currency); err != nil {
+	if err := c.WalletRepository.FindByIDAndUser(c.DB.WithContext(ctx), wallet, walletID, userID); err != nil {
 		if err == gorm.ErrRecordNotFound {
 			c.Log.Warnf("Wallet not found for user: %s", userID)
 			return nil, utils.Error(constants.ErrWalletNotFound, http.StatusNotFound, err)
@@ -53,7 +44,7 @@ func (c *WalletUseCase) GetBalance(ctx context.Context, userID uuid.UUID, curren
 
 	return &model.WalletBalanceResponse{
 		Balance:  wallet.Balance,
-		Currency: wallet.Currency,
+		Currency: entity.Currency(wallet.Currency),
 	}, nil
 }
 

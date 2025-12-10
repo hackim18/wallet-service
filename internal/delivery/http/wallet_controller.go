@@ -31,9 +31,14 @@ func NewWalletController(useCase *usecase.WalletUseCase, logger *logrus.Logger, 
 func (c *WalletController) GetBalance(ctx *gin.Context) {
 	auth := middleware.GetUser(ctx)
 
-	currency := ctx.Query("currency")
+	walletIDStr := ctx.Param("walletId")
+	walletID, err := uuid.Parse(walletIDStr)
+	if err != nil {
+		utils.HandleHTTPError(ctx, utils.Error(constants.ErrInvalidIDFormat, http.StatusBadRequest, err))
+		return
+	}
 
-	response, err := c.UseCase.GetBalance(ctx.Request.Context(), auth.UserID, currency)
+	response, err := c.UseCase.GetBalance(ctx.Request.Context(), auth.UserID, walletID)
 	if err != nil {
 		c.Log.WithError(err).Warn("failed to get wallet balance")
 		utils.HandleHTTPError(ctx, err)
