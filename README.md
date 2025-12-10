@@ -194,10 +194,29 @@ Authorization: Bearer <access_token>
 POST /api/users/register
 ```
 
+Body:
+
+```json
+{
+  "email": "johndoe@mail.com",
+  "password": "12345678",
+  "name": "John Doe"
+}
+```
+
 #### Login
 
 ```
 POST /api/users/login
+```
+
+Body:
+
+```json
+{
+  "email": "johndoe@mail.com",
+  "password": "12345678"
+}
 ```
 
 ---
