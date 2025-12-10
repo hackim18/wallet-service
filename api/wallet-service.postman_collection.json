@@ -1,0 +1,1386 @@
+{
+	"info": {
+		"_postman_id": "c6176247-2eaf-444b-acad-8e04e140d614",
+		"name": "Wallet Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33199697",
+		"_collection_link": "https://a44444-7251.postman.co/workspace/My-Project~1d89b93d-f4f7-4044-a9d0-52ac4c64f7df/collection/33199697-c6176247-2eaf-444b-acad-8e04e140d614?action=share&source=collection_link&creator=33199697"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    \"password\": \"12345678\",\r\n    \"name\": \"john\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_UEL}}/api/users/register",
+							"host": [
+								"{{BASE_UEL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    \"password\": \"12345678\",\r\n    \"name\": \"john\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/users/register",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Dec 2025 17:09:18 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "109"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User registered successfully\",\n    \"data\": {\n        \"id\": \"cf64fc31-01be-4241-b67a-a94bd2acb3d6\",\n        \"name\": \"john\"\n    }\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    // \"password\": \"12345678\",\r\n    \"name\": \"john\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/users/register",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Dec 2025 17:09:40 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Password is a required field\"\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    \"password\": \"1234567\",\r\n    \"name\": \"john\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/users/register",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Dec 2025 17:09:58 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "61"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Password must be at least 8 characters in length\"\n}"
+						},
+						{
+							"name": "409 Conflict",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    \"password\": \"12345678\",\r\n    \"name\": \"john\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/users/register",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Dec 2025 16:55:30 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"User with this email already exists\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"johndoe@mail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_UEL}}/api/users/login",
+							"host": [
+								"{{BASE_UEL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"johndoe@mail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/users/login",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 05:58:24 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "353"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User logged in successfully\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3YWxsZXQtc2VydmljZSIsImVtYWlsIjoiam9obmRvZUBtYWlsLmNvbSIsImV4cCI6MTc2NTQzMjcwNCwiaWF0IjoxNzY1MzQ2MzA0LCJpc3MiOiJ3YWxsZXQtc2VydmljZSIsInN1YiI6ImFhYWExMTExLWJiYmItMjIyMi1jY2NjLTMzMzMzMzMzMzMzMyJ9.HJSSrcDDA7bKRfqHDnz4nfSatunYdmUZ8mMW91cf0Do\"\n    }\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    \"password\": \"123456781\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/users/login",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Dec 2025 17:23:43 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "38"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Invalid email or password\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Wallets",
+			"item": [
+				{
+					"name": "Wallets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_UEL}}/api/wallets",
+							"host": [
+								"{{BASE_UEL}}"
+							],
+							"path": [
+								"api",
+								"wallets"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:49:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "213"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Wallet list fetched successfully\",\n    \"data\": [\n        {\n            \"id\": \"11111111-2222-3333-4444-555555555555\",\n            \"currency\": \"IDR\",\n            \"balance\": 150000\n        },\n        {\n            \"id\": \"66666666-7777-8888-9999-000000000000\",\n            \"currency\": \"USD\",\n            \"balance\": 2500\n        }\n    ]\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:50:28 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Invalid token\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Balance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/balance",
+							"host": [
+								"{{BASE_UEL}}"
+							],
+							"path": [
+								"api",
+								"wallets",
+								":wallet_id",
+								"balance"
+							],
+							"variable": [
+								{
+									"key": "wallet_id",
+									"value": "11111111-2222-3333-4444-555555555555"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/balance",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:49:32 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "92"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Wallet balance fetched successfully\",\n    \"data\": {\n        \"balance\": 150000,\n        \"currency\": \"IDR\"\n    }\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/balance",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:50:05 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Invalid token\"\n}"
+						},
+						{
+							"name": "404 Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/balance",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "99999999-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:49:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Wallet not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Withdraw",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Tarik tunai\",\n    \"description\": \"Penarikan ke rekening bank\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/withdraw",
+							"host": [
+								"{{BASE_UEL}}"
+							],
+							"path": [
+								"api",
+								"wallets",
+								":wallet_id",
+								"withdraw"
+							],
+							"variable": [
+								{
+									"key": "wallet_id",
+									"value": "11111111-2222-3333-4444-555555555555"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Tarik tunai\",\n    \"description\": \"Penarikan ke rekening bank\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/withdraw",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"withdraw"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:52:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "120"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Withdraw successful\",\n    \"data\": {\n        \"amount\": 50000,\n        \"currency\": \"IDR\",\n        \"balance_before\": 100000,\n        \"balance_after\": 50000\n    }\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Tarik tunai\",\n    \"description\": \"Penarikan ke rekening bank\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/withdraw",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"withdraw"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:52:44 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Insufficient balance\"\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Tarik tunai\",\n    \"description\": \"Penarikan ke rekening bank\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/withdraw",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"withdraw"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:51:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Invalid token\"\n}"
+						},
+						{
+							"name": "404 Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Tarik tunai\",\n    \"description\": \"Penarikan ke rekening bank\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/withdraw",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"withdraw"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "91111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 07:52:30 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Wallet not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Deposit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Topup via bank\",\n    \"description\": \"Topup BCA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/deposit",
+							"host": [
+								"{{BASE_UEL}}"
+							],
+							"path": [
+								"api",
+								"wallets",
+								":wallet_id",
+								"deposit"
+							],
+							"variable": [
+								{
+									"key": "wallet_id",
+									"value": "11111111-2222-3333-4444-555555555555"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Topup via bank\",\n    \"description\": \"Topup BCA\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/deposit",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"deposit"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 08:08:42 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "171"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deposit successful\",\n    \"data\": {\n        \"wallet_id\": \"11111111-2222-3333-4444-555555555555\",\n        \"amount\": 50000,\n        \"currency\": \"IDR\",\n        \"balance_before\": 100000,\n        \"balance_after\": 150000\n    }\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Topup via bank\",\n    \"description\": \"Topup BCA\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/deposit",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"deposit"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 08:09:11 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Invalid token\"\n}"
+						},
+						{
+							"name": "404 Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 50000,\n    \"reference\": \"Topup via bank\",\n    \"description\": \"Topup BCA\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/deposit",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"deposit"
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "91111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 08:08:58 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Wallet not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/transactions?page=1&size=5",
+							"host": [
+								"{{BASE_UEL}}"
+							],
+							"path": [
+								"api",
+								"wallets",
+								":wallet_id",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "type",
+									"value": "credit",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "wallet_id",
+									"value": "11111111-2222-3333-4444-555555555555"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/transactions?page=1&size=5",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "5"
+										},
+										{
+											"key": "type",
+											"value": "credit",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 08:56:49 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "782"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Wallet transactions fetched successfully\",\n    \"data\": [\n        {\n            \"id\": \"18ec2c7d-b44f-41cf-a3b2-e62b692bb940\",\n            \"type\": \"CREDIT\",\n            \"amount\": 50000,\n            \"balance_before\": 150000,\n            \"balance_after\": 200000,\n            \"reference\": \"Topup via bank\",\n            \"description\": \"Topup BCA\",\n            \"created_at\": 1765357003\n        },\n        {\n            \"id\": \"0b646295-bb98-4942-b9b2-37c0e7d242c6\",\n            \"type\": \"CREDIT\",\n            \"amount\": 50000,\n            \"balance_before\": 100000,\n            \"balance_after\": 150000,\n            \"reference\": \"Topup via bank\",\n            \"description\": \"Topup BCA\",\n            \"created_at\": 1765357001\n        },\n        {\n            \"id\": \"c354b505-6c39-42a9-a6d1-2e789f4e3a76\",\n            \"type\": \"CREDIT\",\n            \"amount\": 50000,\n            \"balance_before\": 100000,\n            \"balance_after\": 150000,\n            \"reference\": \"Topup via bank\",\n            \"description\": \"Topup BCA\",\n            \"created_at\": 1765356051\n        }\n    ],\n    \"paging\": {\n        \"current_page\": 1,\n        \"page_size\": 5,\n        \"total_item\": 3,\n        \"total_page\": 1,\n        \"has_next\": false,\n        \"has_previous\": false\n    }\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/transactions?page=1&size=5",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "5"
+										}
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "11111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 08:49:19 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Invalid token\"\n}"
+						},
+						{
+							"name": "404 Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_UEL}}/api/wallets/:wallet_id/transactions?page=1&size=5",
+									"host": [
+										"{{BASE_UEL}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										":wallet_id",
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "5"
+										}
+									],
+									"variable": [
+										{
+											"key": "wallet_id",
+											"value": "91111111-2222-3333-4444-555555555555"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Dec 2025 08:48:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": \"Wallet not found\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_UEL",
+			"value": ""
+		},
+		{
+			"key": "BEARER_TOKEN",
+			"value": ""
+		}
+	]
+}
