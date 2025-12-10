@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"net/http"
+	"wallet-service/internal/constants"
 	"wallet-service/internal/model"
 	"wallet-service/internal/usecase"
 	"wallet-service/internal/utils"
@@ -15,12 +17,12 @@ func NewAuth(userUserCase *usecase.UserUseCase) gin.HandlerFunc {
 
 		auth, err := userUserCase.Verify(ctx.Request.Context(), request)
 		if err != nil {
-			userUserCase.Log.Warnf("Failed find user by token : %+v", err)
-			utils.HandleHTTPError(ctx, err)
+			res := utils.FailedResponse(ctx, http.StatusUnauthorized, constants.InvalidToken, err)
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, res)
 			return
 		}
 
-		userUserCase.Log.Debugf("User : %+v", auth.ID)
+		userUserCase.Log.Debugf("User : %+v", auth.UserID)
 		ctx.Set("auth", auth)
 		ctx.Next()
 	}

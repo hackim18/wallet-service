@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"net/http"
+	"strings"
 	"wallet-service/internal/constants"
 	"wallet-service/internal/entity"
 	"wallet-service/internal/model"
@@ -41,24 +42,28 @@ func (c *UserUseCase) Verify(ctx context.Context, request *model.VerifyUserReque
 		return nil, model.ErrUnauthorized
 	}
 
-	tokenID, err := uuid.Parse(request.Token)
+	tokenStr := strings.TrimPrefix(request.Token, "Bearer ")
+	claims, err := c.JWT.DecodeAccessToken(tokenStr)
 	if err != nil {
-		c.Log.Warnf("Failed parse token to UUID : %+v", err)
-		return nil, model.ErrUnauthorized
+		c.Log.Warnf("Failed to decode access token : %+v", err)
+		return nil, utils.Error(constants.InvalidToken, http.StatusUnauthorized, err)
 	}
 
-	user := new(entity.User)
-	if err := c.UserRepository.FindById(tx, user, tokenID); err != nil {
-		c.Log.Warnf("Failed find user by token : %+v", err)
-		return nil, model.ErrUnauthorized
+	subStr, ok := claims["sub"].(string)
+	if !ok {
+		c.Log.Warnf("Invalid user_id in token claims")
+		return nil, utils.Error(constants.InvalidToken, http.StatusUnauthorized, nil)
 	}
 
-	if err := tx.Commit().Error; err != nil {
-		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, model.ErrInternalServerError
+	userID, err := uuid.Parse(subStr)
+	if err != nil {
+		c.Log.Warnf("Invalid UUID format in token claims")
+		return nil, utils.Error(constants.InvalidToken, http.StatusUnauthorized, err)
 	}
 
-	return &model.Auth{ID: user.ID}, nil
+	return &model.Auth{
+		UserID: userID,
+	}, nil
 }
 
 func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserRequest) (*model.UserResponse, error) {
