@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"net/http"
+	"strings"
 	"wallet-service/internal/constants"
 	"wallet-service/internal/entity"
 	"wallet-service/internal/model"
@@ -142,7 +143,12 @@ func (c *WalletUseCase) ListTransactions(ctx context.Context, userID uuid.UUID, 
 	limit := size
 	offset := (page - 1) * size
 
-	txs, total, err := c.WalletTransactionRepository.FindByWalletIDWithPaging(c.DB.WithContext(ctx), walletID, limit, offset)
+	txnType := strings.ToUpper(strings.TrimSpace(request.Type))
+	if txnType != "" && txnType != "DEBIT" && txnType != "CREDIT" {
+		return nil, model.PageMetadata{}, utils.Error(constants.ErrInvalidTransactionType, http.StatusBadRequest, nil)
+	}
+
+	txs, total, err := c.WalletTransactionRepository.FindByWalletIDWithPaging(c.DB.WithContext(ctx), walletID, txnType, limit, offset)
 	if err != nil {
 		c.Log.WithError(err).Error("failed to list wallet transactions")
 		return nil, model.PageMetadata{}, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)

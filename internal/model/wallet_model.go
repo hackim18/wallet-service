@@ -56,6 +56,7 @@ type WalletTransactionResponse struct {
 }
 
 type WalletTransactionsListRequest struct {
-	Page int `json:"page" validate:"omitempty,min=1"`
-	Size int `json:"size" validate:"omitempty,min=1,max=100"`
+	Page int    `json:"page" validate:"omitempty,min=1"`
+	Size int    `json:"size" validate:"omitempty,min=1,max=100"`
+	Type string `json:"type,omitempty" validate:"omitempty,oneof=DEBIT CREDIT"`
 }

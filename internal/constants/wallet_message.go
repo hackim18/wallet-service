@@ -9,10 +9,11 @@ const (
 )
 
 const (
-	ErrCurrencyRequired   = "Currency is required"
-	ErrWalletNotFound     = "Wallet not found"
-	ErrFetchWalletBalance = "Failed to fetch wallet balance"
-	ErrCreateWallet       = "Failed to create wallet"
-	ErrInvalidAmount      = "Invalid amount"
-	ErrInsufficientFunds  = "Insufficient balance"
+	ErrCurrencyRequired       = "Currency is required"
+	ErrWalletNotFound         = "Wallet not found"
+	ErrFetchWalletBalance     = "Failed to fetch wallet balance"
+	ErrCreateWallet           = "Failed to create wallet"
+	ErrInvalidAmount          = "Invalid amount"
+	ErrInsufficientFunds      = "Insufficient balance"
+	ErrInvalidTransactionType = "Invalid transaction type"
 )

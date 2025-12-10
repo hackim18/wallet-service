@@ -3,6 +3,7 @@ package http
 import (
 	"net/http"
 	"strconv"
+	"strings"
 	"wallet-service/internal/constants"
 	"wallet-service/internal/delivery/http/middleware"
 	"wallet-service/internal/model"
@@ -149,6 +150,7 @@ func (c *WalletController) ListTransactions(ctx *gin.Context) {
 	request := model.WalletTransactionsListRequest{
 		Page: page,
 		Size: size,
+		Type: strings.ToUpper(strings.TrimSpace(ctx.Query("type"))),
 	}
 
 	response, paging, err := c.UseCase.ListTransactions(ctx.Request.Context(), auth.UserID, walletID, request)
