@@ -3,7 +3,8 @@ package route
 import "github.com/gin-gonic/gin"
 
 func (c *RouteConfig) RegisterWalletRoutes(rg *gin.RouterGroup) {
-	user := rg.Group("/wallets")
+	wallet := rg.Group("/wallets")
 
-	user.GET("/balance", c.AuthMiddleware, c.WalletController.GetBalance)
+	wallet.GET("/balance", c.AuthMiddleware, c.WalletController.GetBalance)
+	wallet.POST("/:walletId/withdraw", c.AuthMiddleware, c.WalletController.Withdraw)
 }

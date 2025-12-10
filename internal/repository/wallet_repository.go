@@ -29,3 +29,9 @@ func (r *WalletRepository) FindByUserIDForUpdate(db *gorm.DB, wallet *entity.Wal
 		Where("user_id = ? AND currency = ?", userID, currency).
 		Take(wallet).Error
 }
+
+func (r *WalletRepository) FindByIDAndUserForUpdate(db *gorm.DB, wallet *entity.Wallet, walletID uuid.UUID, userID uuid.UUID) error {
+	return db.Clauses(clause.Locking{Strength: "UPDATE"}).
+		Where("id = ? AND user_id = ?", walletID, userID).
+		Take(wallet).Error
+}

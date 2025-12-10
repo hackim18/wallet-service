@@ -28,14 +28,15 @@ func Bootstrap(config *BootstrapConfig) {
 	// setup repositories
 	userRepository := repository.NewUserRepository(config.Log)
 	walletRepository := repository.NewWalletRepository(config.Log)
+	walletTransactionRepository := repository.NewWalletTransactionRepository(config.Log)
 
 	// setup use cases
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.JWT, userRepository, walletRepository)
-	walletUseCase := usecase.NewWalletUseCase(config.DB, config.Log, walletRepository)
+	walletUseCase := usecase.NewWalletUseCase(config.DB, config.Log, walletRepository, walletTransactionRepository)
 
 	// setup controller
 	userController := http.NewUserController(userUseCase, config.Log, config.Validate)
-	walletController := http.NewWalletController(walletUseCase, config.Log)
+	walletController := http.NewWalletController(walletUseCase, config.Log, config.Validate)
 
 	// setup middleware
 	authMiddleware := middleware.NewAuth(userUseCase)

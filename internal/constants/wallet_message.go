@@ -2,11 +2,14 @@ package constants
 
 const (
 	WalletBalanceFetched = "Wallet balance fetched successfully"
+	MsgWithdrawSuccess   = "Withdraw successful"
 )
 
 const (
-	ErrCurrencyRequired   = "currency is required"
-	ErrWalletNotFound     = "wallet not found"
-	ErrFetchWalletBalance = "failed to fetch wallet balance"
-	ErrCreateWallet       = "failed to create wallet"
+	ErrCurrencyRequired   = "Currency is required"
+	ErrWalletNotFound     = "Wallet not found"
+	ErrFetchWalletBalance = "Failed to fetch wallet balance"
+	ErrCreateWallet       = "Failed to create wallet"
+	ErrInvalidAmount      = "Invalid amount"
+	ErrInsufficientFunds  = "Insufficient balance"
 )
