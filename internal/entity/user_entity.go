@@ -12,8 +12,9 @@ type User struct {
 	Name         string    `gorm:"type:varchar(100);not null" json:"name"`
 	Email        string    `gorm:"type:varchar(100);uniqueIndex;not null" json:"email"`
 	PasswordHash string    `gorm:"type:varchar(255);not null" json:"-"`
-	CreatedAt    time.Time `gorm:"column:created_at;autoCreateTime:milli"`
-	UpdatedAt    time.Time `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`
+	CreatedAt    time.Time `gorm:"column:created_at;autoCreateTime:milli" json:"created_at"`
+	UpdatedAt    time.Time `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli" json:"updated_at"`
+	Wallets      []Wallet  `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"-"`
 }
 
 func (u *User) TableName() string {

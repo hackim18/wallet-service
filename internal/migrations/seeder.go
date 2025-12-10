@@ -14,6 +14,8 @@ func Seeder(db *gorm.DB, logger *logrus.Logger) error {
 	logger.Info("Seeding database...")
 
 	seedFromJSON("internal/migrations/json/users.json", &[]entity.User{}, db, logger)
+	seedFromJSON("internal/migrations/json/wallets.json", &[]entity.Wallet{}, db, logger)
+	seedFromJSON("internal/migrations/json/wallet_transactions.json", &[]entity.WalletTransaction{}, db, logger)
 
 	return nil
 }

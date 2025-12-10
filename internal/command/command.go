@@ -66,14 +66,14 @@ func (ce *CommandExecutor) handleDropTable(logger *logrus.Logger) {
 		logger.Fatal("DROP_TABLE_NAMES is not set in env")
 	}
 
-	tableList := strings.SplitSeq(tables, ",")
-	for table := range tableList {
+	tableList := strings.Split(tables, ",")
+	for _, table := range tableList {
 		table = strings.TrimSpace(table)
 		if table == "" {
 			continue
 		}
 
-		sql := fmt.Sprintf("DROP TABLE IF EXISTS `%s`", table)
+		sql := fmt.Sprintf(`DROP TABLE IF EXISTS "%s" CASCADE`, table)
 		if err := ce.DB.Exec(sql).Error; err != nil {
 			logger.Fatalf("Failed to drop table '%s': %v", table, err)
 		}
