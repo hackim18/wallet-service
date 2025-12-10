@@ -18,19 +18,21 @@ import (
 )
 
 type UserUseCase struct {
-	DB             *gorm.DB
-	Log            *logrus.Logger
-	JWT            *utils.JWTHelper
-	UserRepository *repository.UserRepository
+	DB               *gorm.DB
+	Log              *logrus.Logger
+	JWT              *utils.JWTHelper
+	UserRepository   *repository.UserRepository
+	WalletRepository *repository.WalletRepository
 }
 
 func NewUserUseCase(db *gorm.DB, logger *logrus.Logger, jwt *utils.JWTHelper,
-	userRepository *repository.UserRepository) *UserUseCase {
+	userRepository *repository.UserRepository, walletRepository *repository.WalletRepository) *UserUseCase {
 	return &UserUseCase{
-		DB:             db,
-		Log:            logger,
-		JWT:            jwt,
-		UserRepository: userRepository,
+		DB:               db,
+		Log:              logger,
+		JWT:              jwt,
+		UserRepository:   userRepository,
+		WalletRepository: walletRepository,
 	}
 }
 
@@ -95,6 +97,16 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 	if err := c.UserRepository.Create(tx, user); err != nil {
 		c.Log.Warnf("Failed to insert user : %+v", err)
 		return nil, utils.Error(constants.ErrCreateUser, http.StatusInternalServerError, err)
+	}
+
+	wallet := &entity.Wallet{
+		UserID:   user.ID,
+		Currency: entity.IDR,
+		Balance:  0,
+	}
+	if err := c.WalletRepository.Create(tx, wallet); err != nil {
+		c.Log.Warnf("Failed to create wallet : %+v", err)
+		return nil, utils.Error(constants.ErrCreateWallet, http.StatusInternalServerError, err)
 	}
 
 	if err := tx.Commit().Error; err != nil {

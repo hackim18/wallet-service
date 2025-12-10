@@ -8,4 +8,5 @@ const (
 	ErrCurrencyRequired   = "currency is required"
 	ErrWalletNotFound     = "wallet not found"
 	ErrFetchWalletBalance = "failed to fetch wallet balance"
+	ErrCreateWallet       = "failed to create wallet"
 )

@@ -30,7 +30,7 @@ func Bootstrap(config *BootstrapConfig) {
 	walletRepository := repository.NewWalletRepository(config.Log)
 
 	// setup use cases
-	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.JWT, userRepository)
+	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.JWT, userRepository, walletRepository)
 	walletUseCase := usecase.NewWalletUseCase(config.DB, config.Log, walletRepository)
 
 	// setup controller
