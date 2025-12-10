@@ -7,10 +7,17 @@ import (
 	"gorm.io/gorm"
 )
 
+type Type string
+
+const (
+	CREDIT Type = "CREDIT"
+	DEBIT  Type = "DEBIT"
+)
+
 type WalletTransaction struct {
 	ID            uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	WalletID      uuid.UUID `gorm:"type:uuid;not null;index:idx_wallet_transactions_wallet_created_at;index:idx_wallet_transactions_wallet" json:"wallet_id"`
-	Type          string    `gorm:"type:varchar(20);not null" json:"type"`
+	Type          Type      `gorm:"type:varchar(10);not null" json:"type"`
 	Amount        int64     `gorm:"not null;check:amount > 0" json:"amount"`
 	BalanceBefore int64     `gorm:"not null" json:"balance_before"`
 	BalanceAfter  int64     `gorm:"not null" json:"balance_after"`

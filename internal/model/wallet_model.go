@@ -45,14 +45,14 @@ type WalletDepositResponse struct {
 }
 
 type WalletTransactionResponse struct {
-	ID            uuid.UUID `json:"id"`
-	Type          string    `json:"type"`
-	Amount        int64     `json:"amount"`
-	BalanceBefore int64     `json:"balance_before"`
-	BalanceAfter  int64     `json:"balance_after"`
-	Reference     string    `json:"reference,omitempty"`
-	Description   string    `json:"description,omitempty"`
-	CreatedAt     int64     `json:"created_at"`
+	ID            uuid.UUID   `json:"id"`
+	Type          entity.Type `json:"type"`
+	Amount        int64       `json:"amount"`
+	BalanceBefore int64       `json:"balance_before"`
+	BalanceAfter  int64       `json:"balance_after"`
+	Reference     string      `json:"reference,omitempty"`
+	Description   string      `json:"description,omitempty"`
+	CreatedAt     int64       `json:"created_at"`
 }
 
 type WalletTransactionsListRequest struct {

@@ -79,7 +79,7 @@ func (c *WalletUseCase) Withdraw(ctx context.Context, userID uuid.UUID, walletID
 
 	transaction := &entity.WalletTransaction{
 		WalletID:      wallet.ID,
-		Type:          "DEBIT",
+		Type:          entity.Type(entity.DEBIT),
 		Amount:        amount,
 		BalanceBefore: before,
 		BalanceAfter:  after,
@@ -192,7 +192,7 @@ func (c *WalletUseCase) Deposit(ctx context.Context, userID uuid.UUID, walletID 
 
 	transaction := &entity.WalletTransaction{
 		WalletID:      wallet.ID,
-		Type:          "CREDIT",
+		Type:          entity.Type(entity.CREDIT),
 		Amount:        amount,
 		BalanceBefore: before,
 		BalanceAfter:  after,
