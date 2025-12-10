@@ -6,6 +6,7 @@ import (
 	"wallet-service/internal/constants"
 	"wallet-service/internal/entity"
 	"wallet-service/internal/model"
+	"wallet-service/internal/model/converter"
 	"wallet-service/internal/repository"
 	"wallet-service/internal/utils"
 
@@ -42,10 +43,7 @@ func (c *WalletUseCase) GetBalance(ctx context.Context, userID uuid.UUID, wallet
 		return nil, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
 	}
 
-	return &model.WalletBalanceResponse{
-		Balance:  wallet.Balance,
-		Currency: entity.Currency(wallet.Currency),
-	}, nil
+	return converter.WalletToBalanceResponse(wallet), nil
 }
 
 func (c *WalletUseCase) Withdraw(ctx context.Context, userID uuid.UUID, walletID uuid.UUID, amount int64, reference, description string) (*model.WalletWithdrawResponse, error) {
@@ -99,12 +97,7 @@ func (c *WalletUseCase) Withdraw(ctx context.Context, userID uuid.UUID, walletID
 		return nil, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
 	}
 
-	return &model.WalletWithdrawResponse{
-		Amount:        amount,
-		Currency:      entity.Currency(wallet.Currency),
-		BalanceBefore: before,
-		BalanceAfter:  after,
-	}, nil
+	return converter.WalletToWithdrawResponse(wallet, amount, before, after), nil
 }
 
 func (c *WalletUseCase) List(ctx context.Context, userID uuid.UUID) ([]model.WalletResponse, error) {
@@ -116,11 +109,8 @@ func (c *WalletUseCase) List(ctx context.Context, userID uuid.UUID) ([]model.Wal
 
 	responses := make([]model.WalletResponse, 0, len(wallets))
 	for _, w := range wallets {
-		responses = append(responses, model.WalletResponse{
-			ID:       w.ID,
-			Currency: entity.Currency(w.Currency),
-			Balance:  w.Balance,
-		})
+		wallet := w
+		responses = append(responses, converter.WalletToResponse(&wallet))
 	}
 
 	return responses, nil
@@ -158,19 +148,7 @@ func (c *WalletUseCase) ListTransactions(ctx context.Context, userID uuid.UUID, 
 		return nil, model.PageMetadata{}, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
 	}
 
-	responses := make([]model.WalletTransactionResponse, 0, len(txs))
-	for _, tx := range txs {
-		responses = append(responses, model.WalletTransactionResponse{
-			ID:            tx.ID,
-			Type:          tx.Type,
-			Amount:        tx.Amount,
-			BalanceBefore: tx.BalanceBefore,
-			BalanceAfter:  tx.BalanceAfter,
-			Reference:     tx.Reference,
-			Description:   tx.Description,
-			CreatedAt:     tx.CreatedAt.Unix(),
-		})
-	}
+	responses := converter.WalletTransactionsToResponse(txs)
 
 	totalPage := int64((total + int64(size) - 1) / int64(size))
 	paging := model.PageMetadata{
@@ -232,11 +210,5 @@ func (c *WalletUseCase) Deposit(ctx context.Context, userID uuid.UUID, walletID 
 		return nil, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
 	}
 
-	return &model.WalletDepositResponse{
-		WalletID:      wallet.ID,
-		Amount:        amount,
-		Currency:      entity.Currency(wallet.Currency),
-		BalanceBefore: before,
-		BalanceAfter:  after,
-	}, nil
+	return converter.WalletToDepositResponse(wallet, amount, before, after), nil
 }

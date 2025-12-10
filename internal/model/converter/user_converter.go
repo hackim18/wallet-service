@@ -19,12 +19,3 @@ func UserToTokenResponse(user *entity.User, login *model.UserLogin) *model.UserR
 		AccessToken: login.AccessToken,
 	}
 }
-
-func UserToEvent(user *entity.User) *model.UserEvent {
-	return &model.UserEvent{
-		ID:        user.ID,
-		Name:      user.Name,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
-	}
-}
