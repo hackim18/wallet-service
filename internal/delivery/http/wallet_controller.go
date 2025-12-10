@@ -78,3 +78,17 @@ func (c *WalletController) Withdraw(ctx *gin.Context) {
 	res := utils.SuccessResponse(ctx, http.StatusOK, constants.MsgWithdrawSuccess, response)
 	ctx.JSON(http.StatusOK, res)
 }
+
+func (c *WalletController) List(ctx *gin.Context) {
+	auth := middleware.GetUser(ctx)
+
+	response, err := c.UseCase.List(ctx.Request.Context(), auth.UserID)
+	if err != nil {
+		c.Log.WithError(err).Warn("failed to list wallets")
+		utils.HandleHTTPError(ctx, err)
+		return
+	}
+
+	res := utils.SuccessResponse(ctx, http.StatusOK, constants.WalletListFetched, response)
+	ctx.JSON(http.StatusOK, res)
+}

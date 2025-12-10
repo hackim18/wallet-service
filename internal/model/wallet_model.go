@@ -1,6 +1,15 @@
 package model
 
-import "wallet-service/internal/entity"
+import (
+	"github.com/google/uuid"
+	"wallet-service/internal/entity"
+)
+
+type WalletResponse struct {
+	ID       uuid.UUID       `json:"id"`
+	Currency entity.Currency `json:"currency"`
+	Balance  int64           `json:"balance"`
+}
 
 type WalletBalanceResponse struct {
 	Balance  int64           `json:"balance"`

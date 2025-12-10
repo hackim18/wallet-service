@@ -35,3 +35,11 @@ func (r *WalletRepository) FindByIDAndUserForUpdate(db *gorm.DB, wallet *entity.
 		Where("id = ? AND user_id = ?", walletID, userID).
 		Take(wallet).Error
 }
+
+func (r *WalletRepository) FindAllByUser(db *gorm.DB, userID uuid.UUID) ([]entity.Wallet, error) {
+	var wallets []entity.Wallet
+	if err := db.Where("user_id = ?", userID).Find(&wallets).Error; err != nil {
+		return nil, err
+	}
+	return wallets, nil
+}

@@ -115,3 +115,22 @@ func (c *WalletUseCase) Withdraw(ctx context.Context, userID uuid.UUID, walletID
 		BalanceAfter:  after,
 	}, nil
 }
+
+func (c *WalletUseCase) List(ctx context.Context, userID uuid.UUID) ([]model.WalletResponse, error) {
+	wallets, err := c.WalletRepository.FindAllByUser(c.DB.WithContext(ctx), userID)
+	if err != nil {
+		c.Log.WithError(err).Error("failed to list wallets")
+		return nil, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
+	}
+
+	responses := make([]model.WalletResponse, 0, len(wallets))
+	for _, w := range wallets {
+		responses = append(responses, model.WalletResponse{
+			ID:       w.ID,
+			Currency: entity.Currency(w.Currency),
+			Balance:  w.Balance,
+		})
+	}
+
+	return responses, nil
+}
