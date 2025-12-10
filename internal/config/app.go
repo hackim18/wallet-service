@@ -27,20 +27,24 @@ type BootstrapConfig struct {
 func Bootstrap(config *BootstrapConfig) {
 	// setup repositories
 	userRepository := repository.NewUserRepository(config.Log)
+	walletRepository := repository.NewWalletRepository(config.Log)
 
 	// setup use cases
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.JWT, userRepository)
+	walletUseCase := usecase.NewWalletUseCase(config.DB, config.Log, walletRepository)
 
 	// setup controller
 	userController := http.NewUserController(userUseCase, config.Log, config.Validate)
+	walletController := http.NewWalletController(walletUseCase, config.Log)
 
 	// setup middleware
 	authMiddleware := middleware.NewAuth(userUseCase)
 
 	routeConfig := route.RouteConfig{
-		Router:         config.Router,
-		UserController: userController,
-		AuthMiddleware: authMiddleware,
+		Router:           config.Router,
+		UserController:   userController,
+		WalletController: walletController,
+		AuthMiddleware:   authMiddleware,
 	}
 	routeConfig.Setup()
 }
