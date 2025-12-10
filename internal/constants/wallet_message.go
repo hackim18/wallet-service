@@ -1,10 +1,11 @@
 package constants
 
 const (
-	WalletBalanceFetched = "Wallet balance fetched successfully"
-	WalletListFetched    = "Wallet list fetched successfully"
-	MsgWithdrawSuccess   = "Withdraw successful"
-	MsgDepositSuccess    = "Deposit successful"
+	WalletBalanceFetched      = "Wallet balance fetched successfully"
+	WalletListFetched         = "Wallet list fetched successfully"
+	WalletTransactionsFetched = "Wallet transactions fetched successfully"
+	MsgWithdrawSuccess        = "Withdraw successful"
+	MsgDepositSuccess         = "Deposit successful"
 )
 
 const (

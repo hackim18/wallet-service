@@ -62,3 +62,18 @@ func SuccessResponse[T any](ctx *gin.Context, statusCode int, message string, da
 		Message: message,
 	}
 }
+
+func SuccessWithPaginationResponse[T any](
+	ctx *gin.Context,
+	statusCode int,
+	message string,
+	data []T,
+	paging model.PageMetadata,
+	documentationURL ...string,
+) model.WebResponse[[]T] {
+	return model.WebResponse[[]T]{
+		Message: message,
+		Data:    data,
+		Paging:  &paging,
+	}
+}

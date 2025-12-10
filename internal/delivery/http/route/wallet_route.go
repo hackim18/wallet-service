@@ -9,4 +9,5 @@ func (c *RouteConfig) RegisterWalletRoutes(rg *gin.RouterGroup) {
 	wallet.GET("/:walletId/balance", c.AuthMiddleware, c.WalletController.GetBalance)
 	wallet.POST("/:walletId/deposit", c.AuthMiddleware, c.WalletController.Deposit)
 	wallet.POST("/:walletId/withdraw", c.AuthMiddleware, c.WalletController.Withdraw)
+	wallet.GET("/:walletId/transactions", c.AuthMiddleware, c.WalletController.ListTransactions)
 }

@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	"strconv"
 	"wallet-service/internal/constants"
 	"wallet-service/internal/delivery/http/middleware"
 	"wallet-service/internal/model"
@@ -130,5 +131,33 @@ func (c *WalletController) Deposit(ctx *gin.Context) {
 	}
 
 	res := utils.SuccessResponse(ctx, http.StatusOK, constants.MsgDepositSuccess, response)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (c *WalletController) ListTransactions(ctx *gin.Context) {
+	auth := middleware.GetUser(ctx)
+
+	walletIDStr := ctx.Param("walletId")
+	walletID, err := uuid.Parse(walletIDStr)
+	if err != nil {
+		utils.HandleHTTPError(ctx, utils.Error(constants.ErrInvalidIDFormat, http.StatusBadRequest, err))
+		return
+	}
+
+	page, _ := strconv.Atoi(ctx.DefaultQuery("page", "1"))
+	size, _ := strconv.Atoi(ctx.DefaultQuery("size", "10"))
+	request := model.WalletTransactionsListRequest{
+		Page: page,
+		Size: size,
+	}
+
+	response, paging, err := c.UseCase.ListTransactions(ctx.Request.Context(), auth.UserID, walletID, request)
+	if err != nil {
+		c.Log.WithError(err).Warn("failed to list wallet transactions")
+		utils.HandleHTTPError(ctx, err)
+		return
+	}
+
+	res := utils.SuccessWithPaginationResponse(ctx, http.StatusOK, constants.WalletTransactionsFetched, response, paging)
 	ctx.JSON(http.StatusOK, res)
 }

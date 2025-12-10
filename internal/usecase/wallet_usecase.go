@@ -126,6 +126,65 @@ func (c *WalletUseCase) List(ctx context.Context, userID uuid.UUID) ([]model.Wal
 	return responses, nil
 }
 
+func (c *WalletUseCase) ListTransactions(ctx context.Context, userID uuid.UUID, walletID uuid.UUID, request model.WalletTransactionsListRequest) ([]model.WalletTransactionResponse, model.PageMetadata, error) {
+	wallet := new(entity.Wallet)
+	if err := c.WalletRepository.FindByIDAndUser(c.DB.WithContext(ctx), wallet, walletID, userID); err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.Log.Warnf("Wallet not found for user: %s", userID)
+			return nil, model.PageMetadata{}, utils.Error(constants.ErrWalletNotFound, http.StatusNotFound, err)
+		}
+		c.Log.WithError(err).Error("failed to fetch wallet for transactions")
+		return nil, model.PageMetadata{}, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
+	}
+
+	page := request.Page
+	size := request.Size
+	if page < 1 {
+		page = 1
+	}
+	if size < 1 {
+		size = 20
+	}
+	if size > 100 {
+		size = 100
+	}
+
+	limit := size
+	offset := (page - 1) * size
+
+	txs, total, err := c.WalletTransactionRepository.FindByWalletIDWithPaging(c.DB.WithContext(ctx), walletID, limit, offset)
+	if err != nil {
+		c.Log.WithError(err).Error("failed to list wallet transactions")
+		return nil, model.PageMetadata{}, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
+	}
+
+	responses := make([]model.WalletTransactionResponse, 0, len(txs))
+	for _, tx := range txs {
+		responses = append(responses, model.WalletTransactionResponse{
+			ID:            tx.ID,
+			Type:          tx.Type,
+			Amount:        tx.Amount,
+			BalanceBefore: tx.BalanceBefore,
+			BalanceAfter:  tx.BalanceAfter,
+			Reference:     tx.Reference,
+			Description:   tx.Description,
+			CreatedAt:     tx.CreatedAt.Unix(),
+		})
+	}
+
+	totalPage := int64((total + int64(size) - 1) / int64(size))
+	paging := model.PageMetadata{
+		CurrentPage: page,
+		PageSize:    size,
+		TotalItem:   total,
+		TotalPage:   totalPage,
+		HasNext:     int64(page*size) < total,
+		HasPrevious: page > 1,
+	}
+
+	return responses, paging, nil
+}
+
 func (c *WalletUseCase) Deposit(ctx context.Context, userID uuid.UUID, walletID uuid.UUID, amount int64, reference, description string) (*model.WalletDepositResponse, error) {
 	if amount <= 0 {
 		return nil, utils.Error(constants.ErrInvalidAmount, http.StatusBadRequest, nil)
