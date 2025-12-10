@@ -101,7 +101,7 @@ func (c *WalletUseCase) Withdraw(ctx context.Context, userID uuid.UUID, walletID
 
 	return &model.WalletWithdrawResponse{
 		Amount:        amount,
-		Currency:      wallet.Currency,
+		Currency:      entity.Currency(wallet.Currency),
 		BalanceBefore: before,
 		BalanceAfter:  after,
 	}, nil
@@ -124,4 +124,60 @@ func (c *WalletUseCase) List(ctx context.Context, userID uuid.UUID) ([]model.Wal
 	}
 
 	return responses, nil
+}
+
+func (c *WalletUseCase) Deposit(ctx context.Context, userID uuid.UUID, walletID uuid.UUID, amount int64, reference, description string) (*model.WalletDepositResponse, error) {
+	if amount <= 0 {
+		return nil, utils.Error(constants.ErrInvalidAmount, http.StatusBadRequest, nil)
+	}
+
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	wallet := new(entity.Wallet)
+	if err := c.WalletRepository.FindByIDAndUserForUpdate(tx, wallet, walletID, userID); err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.Log.Warnf("Wallet not found for user: %s", userID)
+			return nil, utils.Error(constants.ErrWalletNotFound, http.StatusNotFound, err)
+		}
+		c.Log.WithError(err).Error("failed to fetch wallet for deposit")
+		return nil, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
+	}
+
+	before := wallet.Balance
+	after := before + amount
+
+	wallet.Balance = after
+	if err := tx.Save(wallet).Error; err != nil {
+		c.Log.WithError(err).Error("failed to update wallet balance (deposit)")
+		return nil, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
+	}
+
+	transaction := &entity.WalletTransaction{
+		WalletID:      wallet.ID,
+		Type:          "CREDIT",
+		Amount:        amount,
+		BalanceBefore: before,
+		BalanceAfter:  after,
+		Reference:     reference,
+		Description:   description,
+	}
+
+	if err := tx.Create(transaction).Error; err != nil {
+		c.Log.WithError(err).Error("failed to record deposit transaction")
+		return nil, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("failed to commit deposit transaction")
+		return nil, utils.Error(constants.ErrFetchWalletBalance, http.StatusInternalServerError, err)
+	}
+
+	return &model.WalletDepositResponse{
+		WalletID:      wallet.ID,
+		Amount:        amount,
+		Currency:      entity.Currency(wallet.Currency),
+		BalanceBefore: before,
+		BalanceAfter:  after,
+	}, nil
 }

@@ -28,3 +28,17 @@ type WalletWithdrawResponse struct {
 	BalanceBefore int64           `json:"balance_before"`
 	BalanceAfter  int64           `json:"balance_after"`
 }
+
+type WalletDepositRequest struct {
+	Amount      int64  `json:"amount" validate:"required,gt=0"`
+	Reference   string `json:"reference,omitempty" validate:"max=100"`
+	Description string `json:"description,omitempty" validate:"max=255"`
+}
+
+type WalletDepositResponse struct {
+	WalletID      uuid.UUID       `json:"wallet_id"`
+	Amount        int64           `json:"amount"`
+	Currency      entity.Currency `json:"currency"`
+	BalanceBefore int64           `json:"balance_before"`
+	BalanceAfter  int64           `json:"balance_after"`
+}

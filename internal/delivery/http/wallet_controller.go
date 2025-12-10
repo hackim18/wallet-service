@@ -97,3 +97,38 @@ func (c *WalletController) List(ctx *gin.Context) {
 	res := utils.SuccessResponse(ctx, http.StatusOK, constants.WalletListFetched, response)
 	ctx.JSON(http.StatusOK, res)
 }
+
+func (c *WalletController) Deposit(ctx *gin.Context) {
+	auth := middleware.GetUser(ctx)
+
+	walletIDStr := ctx.Param("walletId")
+	walletID, err := uuid.Parse(walletIDStr)
+	if err != nil {
+		utils.HandleHTTPError(ctx, utils.Error(constants.ErrInvalidIDFormat, http.StatusBadRequest, err))
+		return
+	}
+
+	request := new(model.WalletDepositRequest)
+	if err := ctx.ShouldBindJSON(request); err != nil {
+		c.Log.WithError(err).Warn("failed to parse deposit request")
+		utils.HandleHTTPError(ctx, utils.Error(constants.FailedDataFromBody, http.StatusBadRequest, err))
+		return
+	}
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Warn("deposit validation failed")
+		msg := utils.TranslateValidationError(c.Validate, err)
+		utils.HandleHTTPError(ctx, utils.Error(msg, http.StatusBadRequest, err))
+		return
+	}
+
+	response, err := c.UseCase.Deposit(ctx.Request.Context(), auth.UserID, walletID, request.Amount, request.Reference, request.Description)
+	if err != nil {
+		c.Log.WithError(err).Warn("failed to deposit")
+		utils.HandleHTTPError(ctx, err)
+		return
+	}
+
+	res := utils.SuccessResponse(ctx, http.StatusOK, constants.MsgDepositSuccess, response)
+	ctx.JSON(http.StatusOK, res)
+}
