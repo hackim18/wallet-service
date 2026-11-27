@@ -1,5 +1,7 @@
 # Wallet Service
 
+[![CI](https://github.com/hackim18/wallet-service/actions/workflows/ci.yml/badge.svg)](https://github.com/hackim18/wallet-service/actions/workflows/ci.yml)
+
 Wallet Service adalah backend service yang menyediakan fitur **registrasi & login user**, **manajemen wallet**, serta **deposit, withdraw, dan histori transaksi**. Project ini dibuat sebagai technical assignment dengan fokus pada _business logic_, _data consistency_, dan _API design_ yang clean serta mudah dipahami.
 
 ---
@@ -162,6 +164,25 @@ Server berjalan di:
 ```
 http://localhost:8080
 ```
+
+### 3️⃣ Menjalankan Test
+
+Unit test berjalan tanpa database:
+
+```bash
+go test ./...
+```
+
+Integration test (deposit, withdraw, saldo kurang, akses wallet milik user lain, pagination, dan **withdraw bersamaan**
+yang membuktikan `SELECT ... FOR UPDATE` mencegah saldo minus) membutuhkan PostgreSQL. Jalankan dengan:
+
+```bash
+docker run -d --name wallet-test-pg -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=wallet_test -p 55432:5432 postgres:16-alpine
+WALLET_TEST_DATABASE_DSN="host=localhost port=55432 user=postgres password=postgres dbname=wallet_test sslmode=disable" go test -race ./...
+```
+
+Tanpa `WALLET_TEST_DATABASE_DSN`, integration test dilewati (skip). Di GitHub Actions semua test dijalankan dengan
+service PostgreSQL (lihat `.github/workflows/ci.yml`).
 
 ---
 
