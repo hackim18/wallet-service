@@ -3,7 +3,7 @@ package http
 import (
 	nethttp "net/http"
 
-	"wallet-service/internal/model"
+	"github.com/hackim18/wallet-service/internal/model"
 
 	"github.com/gin-gonic/gin"
 )

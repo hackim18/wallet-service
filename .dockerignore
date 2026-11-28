@@ -1,0 +1,7 @@
+.git
+.github
+.env
+tmp
+*.md
+db_schema.png
+api

@@ -1,7 +1,7 @@
 package migrations
 
 import (
-	"wallet-service/internal/entity"
+	"github.com/hackim18/wallet-service/internal/entity"
 
 	"gorm.io/gorm"
 )

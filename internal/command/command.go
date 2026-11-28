@@ -2,9 +2,9 @@ package command
 
 import (
 	"fmt"
+	"github.com/hackim18/wallet-service/internal/migrations"
 	"os"
 	"strings"
-	"wallet-service/internal/migrations"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

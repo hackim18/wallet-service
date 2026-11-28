@@ -2,8 +2,8 @@ package utils
 
 import (
 	"errors"
+	"github.com/hackim18/wallet-service/internal/model"
 	"net/http"
-	"wallet-service/internal/model"
 
 	"github.com/gin-gonic/gin"
 )

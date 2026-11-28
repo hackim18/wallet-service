@@ -1,7 +1,7 @@
 package model
 
 import (
-	"wallet-service/internal/entity"
+	"github.com/hackim18/wallet-service/internal/entity"
 
 	"github.com/google/uuid"
 )

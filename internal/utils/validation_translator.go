@@ -2,8 +2,8 @@ package utils
 
 import (
 	"errors"
+	"github.com/hackim18/wallet-service/internal/constants"
 	"strings"
-	"wallet-service/internal/constants"
 
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"

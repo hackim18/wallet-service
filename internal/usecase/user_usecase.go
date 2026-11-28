@@ -2,14 +2,14 @@ package usecase
 
 import (
 	"context"
+	"github.com/hackim18/wallet-service/internal/constants"
+	"github.com/hackim18/wallet-service/internal/entity"
+	"github.com/hackim18/wallet-service/internal/model"
+	"github.com/hackim18/wallet-service/internal/model/converter"
+	"github.com/hackim18/wallet-service/internal/repository"
+	"github.com/hackim18/wallet-service/internal/utils"
 	"net/http"
 	"strings"
-	"wallet-service/internal/constants"
-	"wallet-service/internal/entity"
-	"wallet-service/internal/model"
-	"wallet-service/internal/model/converter"
-	"wallet-service/internal/repository"
-	"wallet-service/internal/utils"
 
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"

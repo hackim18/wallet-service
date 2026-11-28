@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: wallet
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-wallet}
+      POSTGRES_DB: wallet_service
+    # Not published to the host: the app reaches it over the compose network.
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wallet -d wallet_service"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    # Runs migrations, then starts the API. Seed sample data once with:
+    #   docker compose run --rm app --seed
+    command: ["--migrate", "--run"]
+    environment:
+      APP_NAME: wallet-service
+      PORT: 8080
+      LOG_LEVEL: 4
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: wallet
+      DB_PASSWORD: ${DB_PASSWORD:-wallet}
+      DB_NAME: wallet_service
+      DB_POOL_IDLE: 10
+      DB_POOL_MAX: 100
+      DB_POOL_LIFETIME: 300
+      JWT_SECRET: ${JWT_SECRET:-change_me_in_production}
+      DROP_TABLE_NAMES: wallet_transactions,wallets,users
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres-data:

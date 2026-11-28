@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"wallet-service/internal/entity"
+	"github.com/hackim18/wallet-service/internal/entity"
 
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"

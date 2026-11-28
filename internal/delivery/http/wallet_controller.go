@@ -1,14 +1,14 @@
 package http
 
 import (
+	"github.com/hackim18/wallet-service/internal/constants"
+	"github.com/hackim18/wallet-service/internal/delivery/http/middleware"
+	"github.com/hackim18/wallet-service/internal/model"
+	"github.com/hackim18/wallet-service/internal/usecase"
+	"github.com/hackim18/wallet-service/internal/utils"
 	"net/http"
 	"strconv"
 	"strings"
-	"wallet-service/internal/constants"
-	"wallet-service/internal/delivery/http/middleware"
-	"wallet-service/internal/model"
-	"wallet-service/internal/usecase"
-	"wallet-service/internal/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"

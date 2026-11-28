@@ -1,8 +1,8 @@
 package converter
 
 import (
-	"wallet-service/internal/entity"
-	"wallet-service/internal/model"
+	"github.com/hackim18/wallet-service/internal/entity"
+	"github.com/hackim18/wallet-service/internal/model"
 )
 
 func WalletToResponse(wallet *entity.Wallet) model.WalletResponse {

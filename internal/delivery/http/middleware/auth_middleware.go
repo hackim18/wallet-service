@@ -1,11 +1,11 @@
 package middleware
 
 import (
+	"github.com/hackim18/wallet-service/internal/constants"
+	"github.com/hackim18/wallet-service/internal/model"
+	"github.com/hackim18/wallet-service/internal/usecase"
+	"github.com/hackim18/wallet-service/internal/utils"
 	"net/http"
-	"wallet-service/internal/constants"
-	"wallet-service/internal/model"
-	"wallet-service/internal/usecase"
-	"wallet-service/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )

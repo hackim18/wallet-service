@@ -1,4 +1,4 @@
-module wallet-service
+module github.com/hackim18/wallet-service
 
 go 1.25
 

@@ -1,7 +1,7 @@
 package route
 
 import (
-	"wallet-service/internal/delivery/http"
+	"github.com/hackim18/wallet-service/internal/delivery/http"
 
 	"github.com/gin-gonic/gin"
 )

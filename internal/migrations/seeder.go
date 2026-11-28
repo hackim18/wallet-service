@@ -2,8 +2,8 @@ package migrations
 
 import (
 	"encoding/json"
+	"github.com/hackim18/wallet-service/internal/entity"
 	"os"
-	"wallet-service/internal/entity"
 
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"

@@ -1,12 +1,12 @@
 package config
 
 import (
-	"wallet-service/internal/delivery/http"
-	"wallet-service/internal/delivery/http/middleware"
-	"wallet-service/internal/delivery/http/route"
-	"wallet-service/internal/repository"
-	"wallet-service/internal/usecase"
-	"wallet-service/internal/utils"
+	"github.com/hackim18/wallet-service/internal/delivery/http"
+	"github.com/hackim18/wallet-service/internal/delivery/http/middleware"
+	"github.com/hackim18/wallet-service/internal/delivery/http/route"
+	"github.com/hackim18/wallet-service/internal/repository"
+	"github.com/hackim18/wallet-service/internal/usecase"
+	"github.com/hackim18/wallet-service/internal/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"

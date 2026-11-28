@@ -1,8 +1,8 @@
 package route
 
 import (
+	"github.com/hackim18/wallet-service/internal/constants"
 	"net/http"
-	"wallet-service/internal/constants"
 
 	"github.com/gin-gonic/gin"
 )

@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"wallet-service/internal/command"
-	"wallet-service/internal/config"
-	"wallet-service/internal/utils"
+	"github.com/hackim18/wallet-service/internal/command"
+	"github.com/hackim18/wallet-service/internal/config"
+	"github.com/hackim18/wallet-service/internal/utils"
 )
 
 func main() {

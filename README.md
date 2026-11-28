@@ -27,6 +27,7 @@ Started as a take-home assignment, then extended with integration tests (includi
 - **Authentication:** JWT (Bearer token)
 - **Migrations and seeding:** built-in command-line flags
 - **CI:** GitHub Actions
+- **Container:** Docker, Docker Compose
 
 ---
 
@@ -145,6 +146,12 @@ air
 ```
 
 The server listens on `http://localhost:8080`.
+
+### Docker
+
+`docker compose up -d --build` starts PostgreSQL and the API (migrations run on start) on `http://localhost:8080`.
+Seed sample data once with `docker compose run --rm app --seed`. The image is a multi-stage build that runs as a
+non-root user; set `JWT_SECRET` and `DB_PASSWORD` in your shell or a `.env` file before using it beyond local testing.
 
 ### 3. Tests
 
